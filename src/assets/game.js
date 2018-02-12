@@ -11,6 +11,7 @@ class Game {
     this.display = new ROT.Display({
       width: this.screenWidth,
       height: this.screenHeight,
+      fontFamily: "Courier, monospace",
       fg: Colors.white,
       bg: Colors.black
     });
@@ -57,8 +58,10 @@ window.onload = function() {
   if (!ROT.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
-    const game = new Game();
-    document.body.appendChild(game.getDisplay().getContainer());
-    game.switchScreen(startScreen);
+    setTimeout(() => {
+      const game = new Game();
+      document.body.appendChild(game.getDisplay().getContainer());
+      game.switchScreen(startScreen);
+    }, 1000);
   }
 };
