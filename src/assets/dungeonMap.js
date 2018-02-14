@@ -18,7 +18,7 @@ class DungeonMap {
     const generator = new ROT.Map.Digger(width, height, {
       roomWidth: [6, maxRoomWidth],
       roomHeight: [6, maxRoomHeight],
-      dugPercentage: 0.1
+      dugPercentage: 0.3
     });
 
     generator.create(
