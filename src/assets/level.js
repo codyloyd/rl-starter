@@ -1,5 +1,6 @@
 import DungeonMap from "./dungeonMap";
 import Entity from "./entity/entity";
+import { WeaponRepository, ItemRepository } from "./item/items";
 import { MonsterTemplate, PlayerTemplate } from "./entity/entities";
 import { floorTile, wallTile } from "./tile";
 
@@ -14,6 +15,7 @@ class Level {
       height: this.height
     });
     this.exploredTiles = {};
+    this.items = {};
 
     // add Entities to Map
     for (let i = 0; i < 10; i++) {
@@ -21,6 +23,15 @@ class Level {
         new Entity(Object.assign(MonsterTemplate, { level: this }))
       );
     }
+
+    for (let i = 0; i < 15; i++) {
+      this.addItemAtRandomPosition(ItemRepository.createRandom());
+    }
+    this.addItemAtRandomPosition(WeaponRepository.createRandom());
+  }
+
+  getItems() {
+    return this.items;
   }
 
   getEntities() {
@@ -35,6 +46,22 @@ class Level {
     } else {
       return this.getRandomFloorPosition();
     }
+  }
+
+  addItemAtRandomPosition(item) {
+    const coords = this.getRandomFloorPosition();
+    this.addItem(item, coords.x, coords.y);
+  }
+
+  addItem(item, x, y) {
+    this.items[x + "," + y] = item;
+  }
+
+  removeItem(item) {
+    const itemKey = Object.keys(this.items).find(
+      itemKey => this.items[itemKey] == item
+    );
+    delete this.items[itemKey];
   }
 
   addEntityAtRandomPosition(entity) {

@@ -1,10 +1,15 @@
 import Colors from "../colors";
-import { PlayerActor, MonsterActor, Movable } from "./entityMixins";
+import {
+  InventoryHolder,
+  PlayerActor,
+  MonsterActor,
+  Movable
+} from "./entityMixins";
 
 export const PlayerTemplate = {
   name: "ME",
   char: "@",
-  mixins: [Movable, PlayerActor]
+  mixins: [Movable, PlayerActor, InventoryHolder]
 };
 
 export const MonsterTemplate = {

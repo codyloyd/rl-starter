@@ -11,6 +11,38 @@ export class PlayerActor {
   }
 }
 
+export class Destructible {
+  constructor({ maxHp = 10, hp }) {
+    this.name = "Destructible";
+    this.maxHp = maxHp;
+    this.hp = hp || this.maxHp;
+    this.takeDamage = this._takeDamage;
+  }
+
+  _takeDamage(damage) {
+    this.hp -= damage;
+  }
+}
+
+export class InventoryHolder {
+  constructor({ inventorySize = 10 }) {
+    this.inventorySize = inventorySize;
+    this.inventory = [];
+    this.addItem = this._addItem;
+    this.removeItem = this._removeItem;
+  }
+  _addItem(item) {
+    if (this.inventory.length < this.inventorySize) {
+      this.inventory.push(item);
+      return true;
+    }
+    return false;
+  }
+  _removeItem(itemToRemove) {
+    this.inventory = this.inventory.filter(item => item !== itemToRemove);
+  }
+}
+
 export class MonsterActor {
   constructor() {
     this.name = "MonsterActor";

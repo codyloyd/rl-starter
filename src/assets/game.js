@@ -1,11 +1,13 @@
 import ROT from "rot-js";
 import Colors from "./colors";
 import startScreen from "./screens/startScreen";
+import MessageDisplay from "./messageDisplay";
+import PlayerStatusDisplay from "./playerStatusDisplay";
 
 class Game {
   constructor() {
     this.screenWidth = 80;
-    this.screenHeight = 40;
+    this.screenHeight = 30;
     this.scheduler = new ROT.Scheduler.Speed();
     this.engine = new ROT.Engine(this.scheduler);
     this.display = new ROT.Display({
@@ -16,6 +18,8 @@ class Game {
       bg: Colors.black
     });
     this.currentScreen;
+    this.messageDisplay = new MessageDisplay();
+    this.playerStatusDisplay = new PlayerStatusDisplay();
 
     window.addEventListener("keydown", e => {
       if (this.currentScreen) {
@@ -58,10 +62,10 @@ window.onload = function() {
   if (!ROT.isSupported()) {
     alert("The rot.js library isn't supported by your browser.");
   } else {
-    setTimeout(() => {
-      const game = new Game();
-      document.body.appendChild(game.getDisplay().getContainer());
-      game.switchScreen(startScreen);
-    }, 1000);
+    const game = new Game();
+    document.body.appendChild(game.playerStatusDisplay.getDisplay());
+    document.body.appendChild(game.getDisplay().getContainer());
+    document.body.appendChild(game.messageDisplay.getDisplay());
+    game.switchScreen(startScreen);
   }
 };

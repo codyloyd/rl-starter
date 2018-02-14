@@ -15,5 +15,13 @@ module.exports = {
   ],
   devServer: {
     port: 5678
+  },
+  module: {
+    rules: [
+      {
+        test: /\.mp3$/,
+        loader: "file-loader"
+      }
+    ]
   }
 };
