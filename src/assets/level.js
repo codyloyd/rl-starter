@@ -8,7 +8,7 @@ class Level {
   constructor(Game) {
     this.game = Game;
     this.width = this.game.getScreenWidth();
-    this.height = this.game.getScreenHeight();
+    this.height = this.game.getScreenHeight() * 1.5;
     this.entities = {};
     this.map = new DungeonMap({
       width: this.width,

@@ -124,6 +124,13 @@ class playScreen {
         console.log("you see " + item.describeA());
       }
     }
+    const screenWidth = Game.getScreenWidth();
+    const screenHeight = Game.getScreenHeight();
+    let topLeftX = Math.max(0, this.player.getX() - screenWidth / 2);
+    topLeftX = Math.min(topLeftX, this.level.width - screenWidth);
+
+    let topLeftY = Math.max(0, this.player.getY() - screenHeight / 2);
+    topLeftY = Math.min(topLeftY, this.level.height - screenHeight);
 
     const fov = new ROT.FOV.PreciseShadowcasting((x, y) => {
       if (map.getTile(x, y)) {
@@ -145,23 +152,36 @@ class playScreen {
       exploredTiles[x + "," + y] = true;
     });
 
-    map.getTiles().forEach((row, x) => {
-      row.forEach((tile, y) => {
+    for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
+      for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
+        const tile = map.getTile(x, y);
         if (visibleTiles[x + "," + y]) {
-          display.draw(x, y, tile.getChar(), tile.getFg(), tile.getBg());
+          display.draw(
+            x - topLeftX,
+            y - topLeftY,
+            tile.getChar(),
+            tile.getFg(),
+            tile.getBg()
+          );
         } else if (this.level.exploredTiles[x + "," + y]) {
-          display.draw(x, y, tile.getChar(), Colors.darkBlue, Colors.black);
+          display.draw(
+            x - topLeftX,
+            y - topLeftY,
+            tile.getChar(),
+            Colors.darkBlue,
+            Colors.black
+          );
         }
-      });
-    });
+      }
+    }
 
     Object.keys(items).forEach(itemKey => {
       const [x, y] = itemKey.split(",");
       const item = items[itemKey];
       if (visibleTiles[x + "," + y]) {
         display.draw(
-          parseInt(x),
-          parseInt(y),
+          parseInt(x) - topLeftX,
+          parseInt(y) - topLeftY,
           item.getChar(),
           item.getFg(),
           item.getBg()
@@ -173,8 +193,8 @@ class playScreen {
     Object.values(entities).forEach(entity => {
       if (visibleTiles[entity.getX() + "," + entity.getY()]) {
         display.draw(
-          entity.getX(),
-          entity.getY(),
+          entity.getX() - topLeftX,
+          entity.getY() - topLeftY,
           entity.getChar(),
           entity.getFg(),
           entity.getBg()
@@ -182,8 +202,8 @@ class playScreen {
       }
     });
     display.draw(
-      this.player.getX(),
-      this.player.getY(),
+      this.player.getX() - topLeftX,
+      this.player.getY() - topLeftY,
       this.player.getChar(),
       this.player.getFg(),
       this.player.getBg()
