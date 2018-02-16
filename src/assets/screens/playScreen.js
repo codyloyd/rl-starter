@@ -2,6 +2,7 @@ import ROT from "rot-js";
 import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
+import ItemListDialog from "./ItemListDialog";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import Level from "../level";
 
@@ -91,7 +92,7 @@ class playScreen {
     }
     // subscreens
     if (inputData.keyCode == ROT.VK_I) {
-      this.enterSubscreen(new ItemListScreen(this.player.inventory, this));
+      this.enterSubscreen(new ItemListDialog(this.player.inventory, this));
     }
   }
 
@@ -211,93 +212,6 @@ class playScreen {
     if (this.subscreen) {
       this.subscreen.render(Game);
       return;
-    }
-  }
-}
-
-class ItemListScreen {
-  constructor(items, masterScreen) {
-    this.items = items;
-    this.masterScreen = masterScreen;
-    this.selectedItemIndex = 0;
-  }
-
-  drawBox(display, width, height, topLeftX, topLeftY) {
-    for (let x = topLeftX; x < height + topLeftX; x++) {
-      for (let y = topLeftY; y < width + topLeftY; y++) {
-        display.draw(y + 1, x + 1, " ");
-      }
-      display.draw(topLeftX, x + 1, "║");
-      display.draw(width + 1 + topLeftX, x + 1, "║");
-    }
-    for (let i = topLeftX; i < width + 2 + topLeftY; i++) {
-      if (i == topLeftX) {
-        display.draw(topLeftX, topLeftY, "╔");
-      } else if (i == width + 1 + topLeftX) {
-        display.draw(i, topLeftY, "╗");
-      } else {
-        display.draw(i, topLeftY, "═");
-      }
-    }
-    for (let i = topLeftX; i < width + 2 + topLeftX; i++) {
-      if (i == topLeftX) {
-        display.draw(topLeftX, height + 1 + topLeftY, "╚");
-      } else if (i == width + 1 + topLeftX) {
-        display.draw(i, height + 1 + topLeftY, "╝");
-      } else {
-        display.draw(i, height + 1 + topLeftY, "═");
-      }
-    }
-  }
-
-  render(Game) {
-    const display = Game.getDisplay();
-    const width = this.items.reduce(
-      (maxLen, item) => Math.max(item.name.length, maxLen),
-      "inventory".length
-    );
-    const height = this.items.length + 1;
-    this.drawBox(display, width + 2, height, 1, 1);
-    display.drawText(2, 2, "INVENTORY");
-    this.items.forEach((item, i) => {
-      const fg = i == this.selectedItemIndex ? Colors.black : Colors.white;
-      const bg = i == this.selectedItemIndex ? Colors.white : Colors.black;
-      display.drawText(2, i + 3, "•%c{" + fg + "}%b{" + bg + "}" + item.name);
-    });
-  }
-
-  incSelectedItem() {
-    this.selectedItemIndex = (this.selectedItemIndex + 1) % this.items.length;
-  }
-  decSelectedItem() {
-    this.selectedItemIndex = this.selectedItemIndex - 1;
-    if (this.selectedItemIndex < 0) {
-      this.selectedItemIndex = this.items.length - 1;
-    }
-  }
-
-  handleInput(inputData) {
-    if (inputData.keyCode === ROT.VK_ESCAPE) {
-      this.masterScreen.exitSubscreen();
-    } else if (inputData.keyCode === ROT.VK_RETURN) {
-      // do thing on selected item
-      const item = this.items[this.selectedItemIndex];
-      console.log(item);
-    } else if (
-      inputData.keyCode === ROT.VK_J ||
-      inputData.keyCode === ROT.VK_DOWN ||
-      inputData.keyCode === ROT.VK_2
-    ) {
-      this.incSelectedItem();
-      this.masterScreen.game.refresh();
-    } else if (
-      inputData.keyCode === ROT.VK_K ||
-      inputData.keyCode ||
-      ROT.VK_UP ||
-      inputData.keyCode === ROT.VK_8
-    ) {
-      this.decSelectedItem();
-      this.masterScreen.game.refresh();
     }
   }
 }

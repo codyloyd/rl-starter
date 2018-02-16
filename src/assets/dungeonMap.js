@@ -13,7 +13,6 @@ class DungeonMap {
 
     const maxRoomWidth = Math.random() > 0.3 ? 10 : 32;
     const maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 32 : 12;
-    console.log(maxRoomWidth, maxRoomHeight);
 
     const generator = new ROT.Map.Digger(width, height, {
       roomWidth: [6, maxRoomWidth],
