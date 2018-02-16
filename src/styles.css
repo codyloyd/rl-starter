@@ -17,3 +17,12 @@ body {
   border: 1px solid var(--white);
   background: var(--black);
 }
+
+.help-screen {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  padding: 15px;
+  border: 1px solid var(--white);
+  background: var(--black);
+}

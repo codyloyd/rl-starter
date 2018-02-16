@@ -3,9 +3,9 @@ import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
 import ItemListDialog from "./itemListDialog";
+import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import Level from "../level";
-import { blip } from "../sounds/sounds";
 
 class playScreen {
   constructor(Game) {
@@ -95,6 +95,9 @@ class playScreen {
     if (inputData.keyCode == ROT.VK_I) {
       this.enterSubscreen(new ItemListDialog(this.player.inventory, this));
     }
+    if (inputData.keyCode == ROT.VK_SLASH) {
+      this.enterSubscreen(new HelpScreen(this));
+    }
   }
 
   enterSubscreen(subscreen) {
@@ -121,7 +124,6 @@ class playScreen {
         this.level.removeItem(item);
         this.game.messageDisplay.add("you pick up " + item.describeA());
         console.log("you pick up " + item.describeA());
-        blip.play();
       } else {
         this.game.messageDisplay.add("you see " + item.describeA());
         console.log("you see " + item.describeA());
