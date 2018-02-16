@@ -7,16 +7,7 @@ class ItemListDialog {
     this.masterScreen = masterScreen;
     this.selectedItemIndex = 0;
     this.display = document.createElement("div");
-    Object.assign(this.display.style, {
-      position: "absolute",
-      top: "60px",
-      left: "60px",
-      padding: "15px",
-      background: Colors.black,
-      color: Colors.white,
-      "font-family": "Courier, monospace",
-      border: "1px solid " + Colors.white
-    });
+    this.display.classList.add("item-list-dialog");
   }
   render() {
     this.display.innerHTML = "";

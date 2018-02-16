@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --config webpack.prod.js",
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,10 +13,7 @@
   "devDependencies": {
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
-    "uglifyjs-webpack-plugin": "^1.1.8",
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "webpack-merge": "^4.1.1"
+    "parcel-bundler": "^1.6.1"
   },
   "dependencies": {
     "rot-js": "^0.6.5"

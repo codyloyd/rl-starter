@@ -1,0 +1,1 @@
+{"dependencies":[{"name":"./assets/game.js","dynamic":true}],"generated":{"html":"<!DOCTYPE html> <html lang=\"en\"> <head> <meta charset=\"UTF-8\"> <title>RL Starter</title> </head> <body> <script src=\"/build/50d396a6072ed70d0ddee7179ee3cc4e.js\"></script> </body> </html> "},"hash":"d20e6b7068d9a2116dae39e87afbf12d","cacheData":{}}

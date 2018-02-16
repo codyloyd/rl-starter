@@ -2,7 +2,7 @@ import ROT from "rot-js";
 import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
-import ItemListDialog from "./ItemListDialog";
+import ItemListDialog from "./itemListDialog";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import Level from "../level";
 

@@ -1,0 +1,280 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+DungeonMap	src/assets/dungeonMap.js	/^class DungeonMap {$/;"	C
+DynamicGlyph	src/assets/dynamicGlyph.js	/^class DynamicGlyph extends Glyph {$/;"	C
+Entity	src/assets/entity/entity.js	/^class Entity extends DynamicGlyph {$/;"	C
+Game	src/assets/entity/entity.js	/^    Game = null,$/;"	P
+Game	src/assets/entity/entityMixins.js	/^    const Game = this.getGame();$/;"	V
+Game	src/assets/game.js	/^class Game {$/;"	C
+Glyph	src/assets/glyph.js	/^class Glyph {$/;"	C
+Item	src/assets/item/item.js	/^class Item extends DynamicGlyph {$/;"	C
+ItemListDialog	src/assets/screens/itemListDialog.js	/^class ItemListDialog {$/;"	C
+Level	src/assets/level.js	/^class Level {$/;"	C
+MessageDisplay	src/assets/messageDisplay.js	/^class MessageDisplay {$/;"	C
+PlayerStatusDisplay	src/assets/playerStatusDisplay.js	/^class PlayerStatusDisplay {$/;"	C
+Repository	src/assets/repository.js	/^class Repository {$/;"	C
+Tile	src/assets/tile.js	/^class Tile extends Glyph {$/;"	C
+_act	src/assets/entity/entityMixins.js	/^  _act() {$/;"	M
+_addItem	src/assets/entity/entityMixins.js	/^  _addItem(item) {$/;"	M
+_removeItem	src/assets/entity/entityMixins.js	/^  _removeItem(itemToRemove) {$/;"	M
+_takeDamage	src/assets/entity/entityMixins.js	/^  _takeDamage(damage) {$/;"	M
+_tryMove	src/assets/entity/entityMixins.js	/^  _tryMove(x, y, level) {$/;"	M
+act	src/assets/entity/entityMixins.js	/^    this.act = this._act;$/;"	P
+add	src/assets/messageDisplay.js	/^  add(message) {$/;"	M
+addEntity	src/assets/level.js	/^  addEntity(entity) {$/;"	M
+addEntityAtRandomPosition	src/assets/level.js	/^  addEntityAtRandomPosition(entity) {$/;"	M
+addItem	src/assets/entity/entityMixins.js	/^    this.addItem = this._addItem;$/;"	P
+addItem	src/assets/level.js	/^  addItem(item, x, y) {$/;"	M
+addItemAtRandomPosition	src/assets/level.js	/^  addItemAtRandomPosition(item) {$/;"	M
+attachedMixinGroups	src/assets/dynamicGlyph.js	/^    this.attachedMixinGroups = {};$/;"	P
+attachedMixins	src/assets/dynamicGlyph.js	/^    this.attachedMixins = {};$/;"	P
+background	src/assets/messageDisplay.js	/^      background: Colors.black,$/;"	P
+background	src/assets/playerStatusDisplay.js	/^      background: Colors.black,$/;"	P
+background	src/assets/screens/itemListDialog.js	/^          background: Colors.white$/;"	P
+bg	src/assets/game.js	/^      bg: Colors.black$/;"	P
+bg	src/assets/glyph.js	/^    this.bg = bg;$/;"	P
+black	src/assets/colors.js	/^  black: "#000010",$/;"	P
+blocksLight	src/assets/tile.js	/^    this.blocksLight = blocksLight;$/;"	P
+blocksLight	src/assets/tile.js	/^  blocksLight: true$/;"	P
+blue	src/assets/colors.js	/^  blue: "#29adff",$/;"	P
+brown	src/assets/colors.js	/^  brown: "#ab5236",$/;"	P
+char	src/assets/entity/entities.js	/^  char: "@",$/;"	P
+char	src/assets/entity/entities.js	/^  char: "m",$/;"	P
+char	src/assets/glyph.js	/^    this.char = char;$/;"	P
+char	src/assets/item/items.js	/^  char: "!",$/;"	P
+char	src/assets/item/items.js	/^  char: "%",$/;"	P
+char	src/assets/item/items.js	/^  char: "(",$/;"	P
+char	src/assets/tile.js	/^  char: "#",$/;"	P
+char	src/assets/tile.js	/^  char: ".",$/;"	P
+color	src/assets/messageDisplay.js	/^      color: Colors.white,$/;"	P
+color	src/assets/playerStatusDisplay.js	/^      color: Colors.white,$/;"	P
+color	src/assets/screens/itemListDialog.js	/^          color: Colors.black,$/;"	P
+constructor	src/assets/dungeonMap.js	/^  constructor({ width = 40, height = 20 }) {$/;"	M
+constructor	src/assets/dynamicGlyph.js	/^  constructor({ name = "", mixins = [] }) {$/;"	M
+constructor	src/assets/entity/entityMixins.js	/^  constructor() {$/;"	M
+constructor	src/assets/entity/entityMixins.js	/^  constructor({ inventorySize = 10 }) {$/;"	M
+constructor	src/assets/entity/entityMixins.js	/^  constructor({ maxHp = 10, hp }) {$/;"	M
+constructor	src/assets/game.js	/^  constructor() {$/;"	M
+constructor	src/assets/glyph.js	/^  constructor({ fg = Colors.white, bg = Colors.black, char = " " }) {$/;"	M
+constructor	src/assets/item/item.js	/^  constructor({ name = "item" }) {$/;"	M
+constructor	src/assets/level.js	/^  constructor(Game) {$/;"	M
+constructor	src/assets/messageDisplay.js	/^  constructor(width = "800px") {$/;"	M
+constructor	src/assets/playerStatusDisplay.js	/^  constructor(width = 800) {$/;"	M
+constructor	src/assets/repository.js	/^  constructor({ name = "repository", ctor = null }) {$/;"	M
+constructor	src/assets/screens/gameOverScreen.js	/^  constructor(Game) {$/;"	M
+constructor	src/assets/screens/itemListDialog.js	/^  constructor(items, masterScreen) {$/;"	M
+constructor	src/assets/screens/playScreen.js	/^  constructor(Game) {$/;"	M
+constructor	src/assets/screens/startScreen.js	/^  constructor(Game) {$/;"	M
+constructor	src/assets/tile.js	/^  constructor({ isWalkable = false, blocksLight = false }) {$/;"	M
+coords	src/assets/level.js	/^    const coords = this.getRandomFloorPosition();$/;"	V
+create	src/assets/repository.js	/^  create(name) {$/;"	M
+createRandom	src/assets/repository.js	/^  createRandom() {$/;"	M
+ctor	src/assets/repository.js	/^    this.ctor = ctor;$/;"	P
+currentScreen	src/assets/game.js	/^    this.currentScreen = new screen(this, options);$/;"	P
+dX	src/assets/entity/entityMixins.js	/^    const dX = Math.floor(Math.random() * 3) - 1;$/;"	V
+dY	src/assets/entity/entityMixins.js	/^    const dY = Math.floor(Math.random() * 3) - 1;$/;"	V
+darkBlue	src/assets/colors.js	/^  darkBlue: "#283a6d",$/;"	P
+darkGray	src/assets/colors.js	/^  darkGray: "#5f574f",$/;"	P
+darkGreen	src/assets/colors.js	/^  darkGreen: "#008751",$/;"	P
+darkPurple	src/assets/colors.js	/^  darkPurple: "#7e2553",$/;"	P
+decSelectedItem	src/assets/screens/itemListDialog.js	/^  decSelectedItem() {$/;"	M
+define	src/assets/repository.js	/^  define(template) {$/;"	M
+describe	src/assets/dynamicGlyph.js	/^  describe() {$/;"	M
+describeA	src/assets/dynamicGlyph.js	/^  describeA(capitalize) {$/;"	M
+describeThe	src/assets/dynamicGlyph.js	/^  describeThe(capitalize) {$/;"	M
+display	src/assets/game.js	/^    this.display = new ROT.Display({$/;"	M
+display	src/assets/screens/gameOverScreen.js	/^    const display = Game.getDisplay();$/;"	V
+display	src/assets/screens/itemListDialog.js	/^    this.display = document.createElement("div");$/;"	P
+display	src/assets/screens/playScreen.js	/^    const display = Game.getDisplay();$/;"	V
+display	src/assets/screens/startScreen.js	/^    const display = Game.getDisplay();$/;"	V
+dugPercentage	src/assets/dungeonMap.js	/^      dugPercentage: 0.3$/;"	P
+empty	src/assets/screens/itemListDialog.js	/^      const empty = document.createElement("div");$/;"	V
+engine	src/assets/game.js	/^    this.engine = new ROT.Engine(this.scheduler);$/;"	P
+enterSubscreen	src/assets/screens/playScreen.js	/^  enterSubscreen(subscreen) {$/;"	M
+entities	src/assets/level.js	/^    this.entities = {};$/;"	P
+entities	src/assets/screens/playScreen.js	/^    const entities = this.level.getEntities();$/;"	V
+exit	src/assets/screens/gameOverScreen.js	/^  exit() {}$/;"	M
+exit	src/assets/screens/playScreen.js	/^  exit() {$/;"	M
+exit	src/assets/screens/startScreen.js	/^  exit() {}$/;"	M
+exitSubscreen	src/assets/screens/playScreen.js	/^  exitSubscreen() {$/;"	M
+exploredTiles	src/assets/level.js	/^    this.exploredTiles = {};$/;"	P
+exploredTiles	src/assets/screens/playScreen.js	/^    const exploredTiles = this.level.exploredTiles;$/;"	V
+fg	src/assets/entity/entities.js	/^  fg: Colors.green,$/;"	P
+fg	src/assets/game.js	/^      fg: Colors.white,$/;"	P
+fg	src/assets/glyph.js	/^    this.fg = fg;$/;"	P
+fg	src/assets/item/items.js	/^  fg: Colors.blue$/;"	P
+fg	src/assets/item/items.js	/^  fg: Colors.peach$/;"	P
+fg	src/assets/item/items.js	/^  fg: Colors.pink$/;"	P
+fg	src/assets/tile.js	/^  fg: Colors.brown,$/;"	P
+fg	src/assets/tile.js	/^  fg: Colors.darkGray,$/;"	P
+fontFamily	src/assets/game.js	/^      fontFamily: "Courier, monospace",$/;"	P
+function	src/assets/dungeonMap.js	/^      function(x, y, value) {$/;"	M
+game	src/assets/entity/entity.js	/^    this.game = Game;$/;"	P
+game	src/assets/game.js	/^    const game = new Game();$/;"	V
+game	src/assets/level.js	/^    this.game = Game;$/;"	P
+game	src/assets/screens/gameOverScreen.js	/^    this.game = Game;$/;"	P
+game	src/assets/screens/playScreen.js	/^    this.game = Game;$/;"	P
+game	src/assets/screens/startScreen.js	/^    this.game = Game;$/;"	P
+gameOverScreen	src/assets/screens/gameOverScreen.js	/^class gameOverScreen {$/;"	C
+getBg	src/assets/glyph.js	/^  getBg() {$/;"	M
+getChar	src/assets/glyph.js	/^  getChar() {$/;"	M
+getDisplay	src/assets/game.js	/^  getDisplay() {$/;"	M
+getDisplay	src/assets/messageDisplay.js	/^  getDisplay() {$/;"	M
+getDisplay	src/assets/playerStatusDisplay.js	/^  getDisplay() {$/;"	M
+getEngine	src/assets/game.js	/^  getEngine() {$/;"	M
+getEntities	src/assets/level.js	/^  getEntities() {$/;"	M
+getEntityAt	src/assets/level.js	/^  getEntityAt(x, y) {$/;"	M
+getFg	src/assets/glyph.js	/^  getFg() {$/;"	M
+getGame	src/assets/entity/entity.js	/^  getGame() {$/;"	M
+getItems	src/assets/level.js	/^  getItems() {$/;"	M
+getLevel	src/assets/entity/entity.js	/^  getLevel() {$/;"	M
+getMap	src/assets/level.js	/^  getMap() {$/;"	M
+getName	src/assets/entity/entity.js	/^  getName() {$/;"	M
+getRandomFloorPosition	src/assets/level.js	/^  getRandomFloorPosition() {$/;"	M
+getScheduler	src/assets/game.js	/^  getScheduler() {$/;"	M
+getScreenHeight	src/assets/game.js	/^  getScreenHeight() {$/;"	M
+getScreenWidth	src/assets/game.js	/^  getScreenWidth() {$/;"	M
+getSpeed	src/assets/entity/entity.js	/^  getSpeed() {$/;"	M
+getTile	src/assets/dungeonMap.js	/^  getTile(x, y) {$/;"	M
+getTiles	src/assets/dungeonMap.js	/^  getTiles() {$/;"	M
+getX	src/assets/entity/entity.js	/^  getX() {$/;"	M
+getY	src/assets/entity/entity.js	/^  getY() {$/;"	M
+green	src/assets/colors.js	/^  green: "#00e436",$/;"	P
+groupName	src/assets/entity/entityMixins.js	/^    this.groupName = "Actor";$/;"	P
+handleInput	src/assets/screens/gameOverScreen.js	/^  handleInput(inputData) {$/;"	M
+handleInput	src/assets/screens/itemListDialog.js	/^  handleInput(inputData) {$/;"	M
+handleInput	src/assets/screens/playScreen.js	/^  handleInput(inputData) {$/;"	M
+handleInput	src/assets/screens/startScreen.js	/^  handleInput(inputData) {$/;"	M
+hasMixin	src/assets/dynamicGlyph.js	/^  hasMixin(mixin) {$/;"	M
+height	src/assets/dungeonMap.js	/^    this.height = height;$/;"	P
+height	src/assets/game.js	/^      height: this.screenHeight,$/;"	P
+height	src/assets/level.js	/^      height: this.height$/;"	P
+height	src/assets/level.js	/^    this.height = this.game.getScreenHeight() * 1.5;$/;"	P
+height	src/assets/messageDisplay.js	/^      height: "88px",$/;"	P
+height	src/assets/playerStatusDisplay.js	/^      height: "18px",$/;"	P
+hp	src/assets/entity/entityMixins.js	/^    this.hp = hp || this.maxHp;$/;"	P
+incSelectedItem	src/assets/screens/itemListDialog.js	/^  incSelectedItem() {$/;"	M
+indigo	src/assets/colors.js	/^  indigo: "#83769c",$/;"	P
+inventory	src/assets/entity/entityMixins.js	/^    this.inventory = [];$/;"	P
+inventory	src/assets/entity/entityMixins.js	/^    this.inventory = this.inventory.filter(item => item !== itemToRemove);$/;"	P
+inventorySize	src/assets/entity/entityMixins.js	/^    this.inventorySize = inventorySize;$/;"	P
+isWalkable	src/assets/tile.js	/^    this.isWalkable = isWalkable;$/;"	P
+isWalkable	src/assets/tile.js	/^  isWalkable: true$/;"	P
+item	src/assets/repository.js	/^    const item = ROT.RNG.getWeightedValue(weightMap);$/;"	V
+itemDiv	src/assets/screens/itemListDialog.js	/^      const itemDiv = document.createElement("div");$/;"	V
+itemKey	src/assets/level.js	/^      itemKey => this.items[itemKey] == item$/;"	P
+items	src/assets/level.js	/^    this.items = {};$/;"	P
+items	src/assets/screens/itemListDialog.js	/^    this.items = items;$/;"	P
+items	src/assets/screens/playScreen.js	/^    const items = this.level.getItems();$/;"	V
+level	src/assets/entity/entity.js	/^    level = null,$/;"	P
+level	src/assets/entity/entity.js	/^    this.level = level;$/;"	P
+level	src/assets/entity/entity.js	/^    this.level = newLevel;$/;"	P
+level	src/assets/screens/playScreen.js	/^    this.level = new Level(this.game);$/;"	P
+lightGray	src/assets/colors.js	/^  lightGray: "#c2c3c7",$/;"	P
+map	src/assets/level.js	/^    this.map = new DungeonMap({$/;"	M
+map	src/assets/screens/playScreen.js	/^    const map = this.level.getMap();$/;"	V
+map	src/assets/screens/playScreen.js	/^    this.map = this.level.getMap();$/;"	P
+masterScreen	src/assets/screens/itemListDialog.js	/^    this.masterScreen = masterScreen;$/;"	P
+maxHp	src/assets/entity/entityMixins.js	/^    this.maxHp = maxHp;$/;"	P
+maxRoomHeight	src/assets/dungeonMap.js	/^    const maxRoomHeight = maxRoomWidth !== 32 && Math.random() > 0.8 ? 32 : 12;$/;"	V
+maxRoomWidth	src/assets/dungeonMap.js	/^    const maxRoomWidth = Math.random() > 0.3 ? 10 : 32;$/;"	V
+messageDisplay	src/assets/game.js	/^    this.messageDisplay = new MessageDisplay();$/;"	P
+messageScreen	src/assets/messageDisplay.js	/^    this.messageScreen = document.createElement("div");$/;"	P
+messages	src/assets/messageDisplay.js	/^    this.messages = [];$/;"	P
+mixin	src/assets/dynamicGlyph.js	/^      const mixin = new mixinFactory(...arguments);$/;"	V
+mixins	src/assets/entity/entities.js	/^  mixins: [Movable, MonsterActor]$/;"	P
+mixins	src/assets/entity/entities.js	/^  mixins: [Movable, PlayerActor, InventoryHolder]$/;"	P
+move	src/assets/screens/playScreen.js	/^    const move = function(dX, dY) {$/;"	F
+name	src/assets/dynamicGlyph.js	/^    this.name = name;$/;"	P
+name	src/assets/entity/entities.js	/^  name: "ME",$/;"	P
+name	src/assets/entity/entities.js	/^  name: "Monster",$/;"	P
+name	src/assets/entity/entity.js	/^    name = " ",$/;"	P
+name	src/assets/entity/entity.js	/^    this.name = name;$/;"	P
+name	src/assets/entity/entity.js	/^    this.name = newName;$/;"	P
+name	src/assets/entity/entityMixins.js	/^    this.name = "Destructible";$/;"	P
+name	src/assets/entity/entityMixins.js	/^    this.name = "MonsterActor";$/;"	P
+name	src/assets/entity/entityMixins.js	/^    this.name = "Movable";$/;"	P
+name	src/assets/entity/entityMixins.js	/^    this.name = "PlayerActor";$/;"	P
+name	src/assets/item/item.js	/^    this.name = name;$/;"	P
+name	src/assets/item/items.js	/^  name: "food",$/;"	P
+name	src/assets/item/items.js	/^  name: "healing potion",$/;"	P
+name	src/assets/item/items.js	/^  name: "really really big knife",$/;"	P
+orange	src/assets/colors.js	/^  orange: "#ffa300",$/;"	P
+overflow	src/assets/messageDisplay.js	/^      overflow: "hidden",$/;"	P
+overflow	src/assets/playerStatusDisplay.js	/^      overflow: "hidden"$/;"	P
+peach	src/assets/colors.js	/^  peach: "#ffccaa"$/;"	P
+pink	src/assets/colors.js	/^  pink: "#ff77a8",$/;"	P
+playScreen	src/assets/screens/playScreen.js	/^class playScreen {$/;"	C
+player	src/assets/screens/playScreen.js	/^    this.player = new Entity($/;"	P
+playerStatus	src/assets/playerStatusDisplay.js	/^    this.playerStatus = document.createElement("div");$/;"	P
+playerStatusDisplay	src/assets/game.js	/^    this.playerStatusDisplay = new PlayerStatusDisplay();$/;"	P
+playerStatusDisplay	src/assets/screens/playScreen.js	/^    const playerStatusDisplay = Game.playerStatusDisplay;$/;"	V
+position	src/assets/screens/playScreen.js	/^    const position = this.level.getRandomFloorPosition();$/;"	V
+prefix	src/assets/dynamicGlyph.js	/^    const prefix = capitalize ? `The` : `the`;$/;"	V
+randomTemplates	src/assets/repository.js	/^    this.randomTemplates = {};$/;"	P
+red	src/assets/colors.js	/^  red: "#ff0040",$/;"	P
+refresh	src/assets/game.js	/^  refresh() {$/;"	M
+removeItem	src/assets/entity/entityMixins.js	/^    this.removeItem = this._removeItem;$/;"	P
+removeItem	src/assets/level.js	/^  removeItem(item) {$/;"	M
+render	src/assets/messageDisplay.js	/^  render() {$/;"	M
+render	src/assets/playerStatusDisplay.js	/^  render({ name = "Player Name", hp, maxHp }) {$/;"	M
+render	src/assets/screens/gameOverScreen.js	/^  render(Game) {$/;"	M
+render	src/assets/screens/itemListDialog.js	/^  render() {$/;"	M
+render	src/assets/screens/playScreen.js	/^  render(Game) {$/;"	M
+render	src/assets/screens/startScreen.js	/^  render(Game) {$/;"	M
+roomHeight	src/assets/dungeonMap.js	/^      roomHeight: [6, maxRoomHeight],$/;"	P
+roomWidth	src/assets/dungeonMap.js	/^      roomWidth: [6, maxRoomWidth],$/;"	P
+scheduler	src/assets/game.js	/^    this.scheduler = new ROT.Scheduler.Speed();$/;"	P
+screenHeight	src/assets/game.js	/^    this.screenHeight = 30;$/;"	P
+screenHeight	src/assets/screens/playScreen.js	/^    const screenHeight = Game.getScreenHeight();$/;"	V
+screenWidth	src/assets/game.js	/^    this.screenWidth = 80;$/;"	P
+screenWidth	src/assets/screens/playScreen.js	/^    const screenWidth = Game.getScreenWidth();$/;"	V
+selectedItemIndex	src/assets/screens/itemListDialog.js	/^      this.selectedItemIndex = this.items.length - 1;$/;"	P
+selectedItemIndex	src/assets/screens/itemListDialog.js	/^    this.selectedItemIndex = (this.selectedItemIndex + 1) % this.items.length;$/;"	P
+selectedItemIndex	src/assets/screens/itemListDialog.js	/^    this.selectedItemIndex = 0;$/;"	P
+selectedItemIndex	src/assets/screens/itemListDialog.js	/^    this.selectedItemIndex = this.selectedItemIndex - 1;$/;"	P
+setMap	src/assets/entity/entity.js	/^  setMap(newLevel) {$/;"	M
+setName	src/assets/entity/entity.js	/^  setName(newName) {$/;"	M
+setPosition	src/assets/entity/entity.js	/^  setPosition(newX, newY) {$/;"	M
+setX	src/assets/entity/entity.js	/^  setX(newX) {$/;"	M
+setY	src/assets/entity/entity.js	/^  setY(newY) {$/;"	M
+speed	src/assets/entity/entity.js	/^    speed = 1000$/;"	P
+speed	src/assets/entity/entity.js	/^    this.speed = speed;$/;"	P
+startScreen	src/assets/screens/startScreen.js	/^class startScreen {$/;"	C
+subscreen	src/assets/screens/playScreen.js	/^    this.subscreen = null;$/;"	P
+subscreen	src/assets/screens/playScreen.js	/^    this.subscreen = subscreen;$/;"	P
+switchScreen	src/assets/game.js	/^  switchScreen(screen, options = {}) {$/;"	M
+takeDamage	src/assets/entity/entityMixins.js	/^    this.takeDamage = this._takeDamage;$/;"	P
+target	src/assets/entity/entityMixins.js	/^    const target = level.getEntityAt(x, y);$/;"	V
+templates	src/assets/repository.js	/^    this.templates = {};$/;"	P
+tile	src/assets/entity/entityMixins.js	/^    const tile = level.getMap().getTile(x, y);$/;"	V
+tile	src/assets/screens/playScreen.js	/^        const tile = map.getTile(x, y);$/;"	V
+tiles	src/assets/dungeonMap.js	/^    this.tiles = new Array(width);$/;"	P
+title	src/assets/screens/itemListDialog.js	/^    const title = document.createElement("div");$/;"	V
+topLeftX	src/assets/screens/playScreen.js	/^    let topLeftX = Math.max(0, this.player.getX() - screenWidth \/ 2);$/;"	V
+topLeftX	src/assets/screens/playScreen.js	/^    topLeftX = Math.min(topLeftX, this.level.width - screenWidth);$/;"	P
+topLeftY	src/assets/screens/playScreen.js	/^    let topLeftY = Math.max(0, this.player.getY() - screenHeight \/ 2);$/;"	V
+topLeftY	src/assets/screens/playScreen.js	/^    topLeftY = Math.min(topLeftY, this.level.height - screenHeight);$/;"	P
+tryMove	src/assets/entity/entityMixins.js	/^    this.tryMove = this._tryMove;$/;"	P
+updateEntityPosition	src/assets/level.js	/^  updateEntityPosition(oldX, oldY, newX, newY) {$/;"	M
+visibleTiles	src/assets/screens/playScreen.js	/^    const visibleTiles = {};$/;"	O
+white	src/assets/colors.js	/^  white: "#fff1f8",$/;"	P
+width	src/assets/dungeonMap.js	/^    this.width = width;$/;"	P
+width	src/assets/game.js	/^      width: this.screenWidth,$/;"	P
+width	src/assets/level.js	/^      width: this.width,$/;"	P
+width	src/assets/level.js	/^    this.width = this.game.getScreenWidth();$/;"	P
+width	src/assets/messageDisplay.js	/^      width: width,$/;"	P
+width	src/assets/playerStatusDisplay.js	/^      width: "800px",$/;"	P
+x	src/assets/entity/entity.js	/^    this.x = newX;$/;"	P
+x	src/assets/entity/entity.js	/^    this.x = x;$/;"	P
+x	src/assets/entity/entity.js	/^    x = 0,$/;"	P
+x	src/assets/level.js	/^    const x = Math.floor(Math.random() * this.width);$/;"	V
+y	src/assets/entity/entity.js	/^    this.y = newY;$/;"	P
+y	src/assets/entity/entity.js	/^    this.y = y;$/;"	P
+y	src/assets/entity/entity.js	/^    y = 0,$/;"	P
+y	src/assets/level.js	/^    const y = Math.floor(Math.random() * this.height);$/;"	V
+yellow	src/assets/colors.js	/^  yellow: "#ffec27",$/;"	P

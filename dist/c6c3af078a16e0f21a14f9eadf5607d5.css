@@ -1,0 +1,19 @@
+:root {
+  --black: #000010;
+  --white: #fff1f8;
+}
+body {
+  background: var(--black);
+  color: var(--white);
+  font-size: 15px;
+  font-family: Courier, monospace;
+}
+
+.item-list-dialog {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  padding: 15px;
+  border: 1px solid var(--white);
+  background: var(--black);
+}
