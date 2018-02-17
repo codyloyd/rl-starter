@@ -1,6 +1,7 @@
 :root {
   --black: #000010;
   --white: #fff1f8;
+  --red: #ff0040;
 }
 body {
   background: var(--black);
@@ -18,6 +19,11 @@ body {
   background: var(--black);
 }
 
+.item-list-dialog .selected {
+  color: var(--black);
+  background: var(--white);
+}
+
 .help-screen {
   position: absolute;
   top: 60px;
@@ -25,4 +31,28 @@ body {
   padding: 15px;
   border: 1px solid var(--white);
   background: var(--black);
+}
+
+.confirmation {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  padding: 15px;
+  border: 1px solid var(--red);
+  background: var(--black);
+}
+
+.confirmation div {
+  text-align: center;
+}
+
+.confirmation button {
+  cursor: pointer;
+  color: var(--white);
+  font-family: Courier, monospace;
+  font-size: 15px;
+  background: var(--black);
+  border: 1px solid var(--white);
+  width: 120px;
+  margin: 15px 15px 0 0;
 }

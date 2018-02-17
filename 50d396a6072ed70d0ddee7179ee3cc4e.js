@@ -71,7 +71,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({28:[function(require,module,exports) {
+})({35:[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -258,7 +258,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],27:[function(require,module,exports) {
+},{}],21:[function(require,module,exports) {
 var global = (1,eval)("this");
 var process = require("process");
 /*
@@ -5883,7 +5883,7 @@ for (var p in ROT) {
   return ROT;
 }));
 
-},{"process":28}],5:[function(require,module,exports) {
+},{"process":35}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5907,7 +5907,7 @@ exports.default = {
   pink: "#ff77a8",
   peach: "#ffccaa"
 };
-},{}],24:[function(require,module,exports) {
+},{}],44:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -5961,7 +5961,7 @@ var Glyph = function () {
 }();
 
 exports.default = Glyph;
-},{"./colors":5}],20:[function(require,module,exports) {
+},{"./colors":7}],39:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6043,7 +6043,7 @@ var DynamicGlyph = function (_Glyph) {
 }(_glyph2.default);
 
 exports.default = DynamicGlyph;
-},{"./glyph":24}],13:[function(require,module,exports) {
+},{"./glyph":44}],24:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6159,7 +6159,7 @@ var Entity = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Entity;
-},{"../dynamicGlyph":20}],14:[function(require,module,exports) {
+},{"../dynamicGlyph":39}],25:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6209,7 +6209,290 @@ var gameOverScreen = function () {
 }();
 
 exports.default = gameOverScreen;
-},{"rot-js":27,"./startScreen":8}],15:[function(require,module,exports) {
+},{"rot-js":21,"./startScreen":10}],41:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.h = h;
+exports.app = app;
+function h(name, attributes /*, ...rest*/) {
+  var node;
+  var rest = [];
+  var children = [];
+  var length = arguments.length;
+
+  while (length-- > 2) rest.push(arguments[length]);
+
+  while (rest.length) {
+    if ((node = rest.pop()) && node.pop /* Array? */) {
+        for (length = node.length; length--;) {
+          rest.push(node[length]);
+        }
+      } else if (node != null && node !== true && node !== false) {
+      children.push(node);
+    }
+  }
+
+  return typeof name === "function" ? name(attributes || {}, children) : {
+    nodeName: name,
+    attributes: attributes || {},
+    children: children,
+    key: attributes && attributes.key
+  };
+}
+
+function app(state, actions, view, container) {
+  var renderLock;
+  var invokeLaterStack = [];
+  var rootElement = container && container.children[0] || null;
+  var oldNode = rootElement && toVNode(rootElement, [].map);
+  var globalState = clone(state);
+  var wiredActions = clone(actions);
+
+  scheduleRender(wireStateToActions([], globalState, wiredActions));
+
+  return wiredActions;
+
+  function toVNode(element, map) {
+    return {
+      nodeName: element.nodeName.toLowerCase(),
+      attributes: {},
+      children: map.call(element.childNodes, function (element) {
+        return element.nodeType === 3 // Node.TEXT_NODE
+        ? element.nodeValue : toVNode(element, map);
+      })
+    };
+  }
+
+  function render() {
+    renderLock = !renderLock;
+
+    var next = view(globalState, wiredActions);
+    if (container && !renderLock) {
+      rootElement = patch(container, rootElement, oldNode, oldNode = next);
+    }
+
+    while (next = invokeLaterStack.pop()) next();
+  }
+
+  function scheduleRender() {
+    if (!renderLock) {
+      renderLock = !renderLock;
+      setTimeout(render);
+    }
+  }
+
+  function clone(target, source) {
+    var obj = {};
+
+    for (var i in target) obj[i] = target[i];
+    for (var i in source) obj[i] = source[i];
+
+    return obj;
+  }
+
+  function set(path, value, source) {
+    var target = {};
+    if (path.length) {
+      target[path[0]] = path.length > 1 ? set(path.slice(1), value, source[path[0]]) : value;
+      return clone(source, target);
+    }
+    return value;
+  }
+
+  function get(path, source) {
+    for (var i = 0; i < path.length; i++) {
+      source = source[path[i]];
+    }
+    return source;
+  }
+
+  function wireStateToActions(path, state, actions) {
+    for (var key in actions) {
+      typeof actions[key] === "function" ? function (key, action) {
+        actions[key] = function (data) {
+          if (typeof (data = action(data)) === "function") {
+            data = data(get(path, globalState), actions);
+          }
+
+          if (data && data !== (state = get(path, globalState)) && !data.then // Promise
+          ) {
+              scheduleRender(globalState = set(path, clone(state, data), globalState));
+            }
+
+          return data;
+        };
+      }(key, actions[key]) : wireStateToActions(path.concat(key), state[key] = state[key] || {}, actions[key] = clone(actions[key]));
+    }
+  }
+
+  function getKey(node) {
+    return node ? node.key : null;
+  }
+
+  function setElementProp(element, name, value, isSVG, oldValue) {
+    if (name === "key") {} else if (name === "style") {
+      for (var i in clone(oldValue, value)) {
+        element[name][i] = value == null || value[i] == null ? "" : value[i];
+      }
+    } else {
+      if (typeof value === "function" || name in element && !isSVG) {
+        element[name] = value == null ? "" : value;
+      } else if (value != null && value !== false) {
+        element.setAttribute(name, value);
+      }
+
+      if (value == null || value === false) {
+        element.removeAttribute(name);
+      }
+    }
+  }
+
+  function createElement(node, isSVG) {
+    var element = typeof node === "string" || typeof node === "number" ? document.createTextNode(node) : (isSVG = isSVG || node.nodeName === "svg") ? document.createElementNS("http://www.w3.org/2000/svg", node.nodeName) : document.createElement(node.nodeName);
+
+    if (node.attributes) {
+      if (node.attributes.oncreate) {
+        invokeLaterStack.push(function () {
+          node.attributes.oncreate(element);
+        });
+      }
+
+      for (var i = 0; i < node.children.length; i++) {
+        element.appendChild(createElement(node.children[i], isSVG));
+      }
+
+      for (var name in node.attributes) {
+        setElementProp(element, name, node.attributes[name], isSVG);
+      }
+    }
+
+    return element;
+  }
+
+  function updateElement(element, oldProps, attributes, isSVG) {
+    for (var name in clone(oldProps, attributes)) {
+      if (attributes[name] !== (name === "value" || name === "checked" ? element[name] : oldProps[name])) {
+        setElementProp(element, name, attributes[name], isSVG, oldProps[name]);
+      }
+    }
+
+    if (attributes.onupdate) {
+      invokeLaterStack.push(function () {
+        attributes.onupdate(element, oldProps);
+      });
+    }
+  }
+
+  function removeChildren(element, node, attributes) {
+    if (attributes = node.attributes) {
+      for (var i = 0; i < node.children.length; i++) {
+        removeChildren(element.childNodes[i], node.children[i]);
+      }
+
+      if (attributes.ondestroy) {
+        attributes.ondestroy(element);
+      }
+    }
+    return element;
+  }
+
+  function removeElement(parent, element, node, cb) {
+    function done() {
+      parent.removeChild(removeChildren(element, node));
+    }
+
+    if (node.attributes && (cb = node.attributes.onremove)) {
+      cb(element, done);
+    } else {
+      done();
+    }
+  }
+
+  function patch(parent, element, oldNode, node, isSVG, nextSibling) {
+    if (node === oldNode) {} else if (oldNode == null) {
+      element = parent.insertBefore(createElement(node, isSVG), element);
+    } else if (node.nodeName && node.nodeName === oldNode.nodeName) {
+      updateElement(element, oldNode.attributes, node.attributes, isSVG = isSVG || node.nodeName === "svg");
+
+      var oldElements = [];
+      var oldKeyed = {};
+      var newKeyed = {};
+
+      for (var i = 0; i < oldNode.children.length; i++) {
+        oldElements[i] = element.childNodes[i];
+
+        var oldChild = oldNode.children[i];
+        var oldKey = getKey(oldChild);
+
+        if (null != oldKey) {
+          oldKeyed[oldKey] = [oldElements[i], oldChild];
+        }
+      }
+
+      var i = 0;
+      var j = 0;
+
+      while (j < node.children.length) {
+        var oldChild = oldNode.children[i];
+        var newChild = node.children[j];
+
+        var oldKey = getKey(oldChild);
+        var newKey = getKey(newChild);
+
+        if (newKeyed[oldKey]) {
+          i++;
+          continue;
+        }
+
+        if (newKey == null) {
+          if (oldKey == null) {
+            patch(element, oldElements[i], oldChild, newChild, isSVG);
+            j++;
+          }
+          i++;
+        } else {
+          var recyledNode = oldKeyed[newKey] || [];
+
+          if (oldKey === newKey) {
+            patch(element, recyledNode[0], recyledNode[1], newChild, isSVG);
+            i++;
+          } else if (recyledNode[0]) {
+            patch(element, element.insertBefore(recyledNode[0], oldElements[i]), recyledNode[1], newChild, isSVG);
+          } else {
+            patch(element, oldElements[i], null, newChild, isSVG);
+          }
+
+          j++;
+          newKeyed[newKey] = newChild;
+        }
+      }
+
+      while (i < oldNode.children.length) {
+        var oldChild = oldNode.children[i];
+        if (getKey(oldChild) == null) {
+          removeElement(element, oldElements[i], oldChild);
+        }
+        i++;
+      }
+
+      for (var i in oldKeyed) {
+        if (!newKeyed[oldKeyed[i][1].key]) {
+          removeElement(element, oldKeyed[i][0], oldKeyed[i][1]);
+        }
+      }
+    } else if (node.nodeName === oldNode.nodeName) {
+      element.nodeValue = node;
+    } else {
+      element = parent.insertBefore(createElement(node, isSVG), nextSibling = element);
+      removeElement(parent, nextSibling, oldNode);
+    }
+    return element;
+  }
+}
+},{}],26:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6221,6 +6504,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _rotJs = require("rot-js");
 
 var _rotJs2 = _interopRequireDefault(_rotJs);
+
+var _hyperapp = require("hyperapp");
 
 var _colors = require("../colors");
 
@@ -6236,60 +6521,77 @@ var ItemListDialog = function () {
 
     this.items = items;
     this.masterScreen = masterScreen;
-    this.selectedItemIndex = 0;
     this.display = document.createElement("div");
-    this.display.classList.add("item-list-dialog");
+    this.actions = {
+      inc: this.incSelectedItem.bind(this),
+      dec: this.decSelectedItem.bind(this),
+      getIndex: function getIndex(value) {
+        return function (state) {
+          return state.selectedItemIndex;
+        };
+      }
+    };
+    this.state = { items: this.items, selectedItemIndex: 0 };
+    this.functions = (0, _hyperapp.app)(this.state, this.actions, this.view, this.display);
   }
 
   _createClass(ItemListDialog, [{
+    key: "view",
+    value: function view(_ref, actions) {
+      var items = _ref.items,
+          selectedItemIndex = _ref.selectedItemIndex;
+
+      return (0, _hyperapp.h)(
+        "div",
+        { "class": "item-list-dialog" },
+        (0, _hyperapp.h)(
+          "div",
+          { style: { borderBottom: "1px solid " + _colors2.default.white } },
+          "INVENTORY"
+        ),
+        items.map(function (item, i) {
+          return (0, _hyperapp.h)(
+            "div",
+            { "class": i == selectedItemIndex ? "selected" : "" },
+            item.name
+          );
+        })
+      );
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
-
-      this.display.innerHTML = "";
-      if (this.items.length === 0) {
-        var empty = document.createElement("div");
-        empty.textContent = "no items!";
-        this.display.appendChild(empty);
-        document.body.appendChild(this.display);
-        return;
-      }
-      var title = document.createElement("div");
-      title.textContent = "INVENTORY";
-      Object.assign(title.style, {
-        "border-bottom": "1px solid " + _colors2.default.white
-      });
-      this.display.appendChild(title);
-      if (this.items.length === 0) {
-        var _empty = document.createElement("div");
-        _empty.textContent = "no items!";
-        this.display.appendChild(_empty);
-      }
-      this.items.forEach(function (item, i) {
-        var itemDiv = document.createElement("div");
-        itemDiv.textContent = item.name;
-        if (i == _this.selectedItemIndex) {
-          Object.assign(itemDiv.style, {
-            color: _colors2.default.black,
-            background: _colors2.default.white
-          });
-        }
-        _this.display.appendChild(itemDiv);
-      });
       document.body.appendChild(this.display);
     }
   }, {
     key: "incSelectedItem",
     value: function incSelectedItem() {
-      this.selectedItemIndex = (this.selectedItemIndex + 1) % this.items.length;
+      var _this = this;
+
+      return function (_ref2) {
+        var selectedItemIndex = _ref2.selectedItemIndex;
+        return {
+          selectedItemIndex: (selectedItemIndex + 1) % _this.items.length
+        };
+      };
     }
   }, {
     key: "decSelectedItem",
     value: function decSelectedItem() {
-      this.selectedItemIndex = this.selectedItemIndex - 1;
-      if (this.selectedItemIndex < 0) {
-        this.selectedItemIndex = this.items.length - 1;
-      }
+      var _this2 = this;
+
+      return function (_ref3) {
+        var selectedItemIndex = _ref3.selectedItemIndex;
+
+        var newValue = selectedItemIndex - 1;
+        if (newValue < 0) {
+          newValue = _this2.items.length - 1;
+        }
+
+        return {
+          selectedItemIndex: newValue
+        };
+      };
     }
   }, {
     key: "handleInput",
@@ -6299,14 +6601,12 @@ var ItemListDialog = function () {
         this.display.remove();
       } else if (inputData.keyCode === _rotJs2.default.VK_RETURN) {
         // do thing on selected item
-        var item = this.items[this.selectedItemIndex];
+        var item = this.items[this.functions.getIndex()];
         console.log(item);
       } else if (inputData.keyCode === _rotJs2.default.VK_J || inputData.keyCode === _rotJs2.default.VK_DOWN || inputData.keyCode === _rotJs2.default.VK_2) {
-        this.incSelectedItem();
-        this.masterScreen.game.refresh();
+        this.functions.inc();
       } else if (inputData.keyCode === _rotJs2.default.VK_K || inputData.keyCode || _rotJs2.default.VK_UP || inputData.keyCode === _rotJs2.default.VK_8) {
-        this.decSelectedItem();
-        this.masterScreen.game.refresh();
+        this.functions.dec();
       }
     }
   }]);
@@ -6315,7 +6615,7 @@ var ItemListDialog = function () {
 }();
 
 exports.default = ItemListDialog;
-},{"rot-js":27,"../colors":5}],32:[function(require,module,exports) {
+},{"rot-js":21,"hyperapp":41,"../colors":7}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6323,6 +6623,103 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _hyperapp = require("hyperapp");
+
+var _rotJs = require("rot-js");
+
+var _rotJs2 = _interopRequireDefault(_rotJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Confirmation = function () {
+  function Confirmation(text, func, masterScreen) {
+    _classCallCheck(this, Confirmation);
+
+    this.text = text;
+    this.masterScreen = masterScreen;
+    this.function = func;
+    this.display = document.createElement("div");
+    (0, _hyperapp.app)({
+      text: this.text,
+      confirm: this.confirm.bind(this),
+      cancel: this.cancel.bind(this)
+    }, {}, this.view, this.display);
+  }
+
+  _createClass(Confirmation, [{
+    key: "view",
+    value: function view(_ref) {
+      var text = _ref.text,
+          confirm = _ref.confirm,
+          cancel = _ref.cancel;
+
+      return (0, _hyperapp.h)(
+        "div",
+        { "class": "confirmation" },
+        text,
+        (0, _hyperapp.h)(
+          "div",
+          null,
+          (0, _hyperapp.h)(
+            "button",
+            { onclick: confirm },
+            "YES (ENTER)"
+          ),
+          (0, _hyperapp.h)(
+            "button",
+            { onclick: cancel },
+            "NO (ESCAPE)"
+          )
+        )
+      );
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      document.body.appendChild(this.display);
+    }
+  }, {
+    key: "confirm",
+    value: function confirm() {
+      this.masterScreen.exitSubscreen();
+      this.display.remove();
+      this.function();
+    }
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      this.masterScreen.exitSubscreen();
+      this.display.remove();
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(inputData) {
+      if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
+        this.cancel();
+      }
+      if (inputData.keyCode === _rotJs2.default.VK_RETURN) {
+        this.confirm();
+      }
+    }
+  }]);
+
+  return Confirmation;
+}();
+
+exports.default = Confirmation;
+},{"hyperapp":41,"rot-js":21}],27:[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _hyperapp = require("hyperapp");
 
 var _rotJs = require("rot-js");
 
@@ -6338,19 +6735,71 @@ var HelpScreen = function () {
 
     this.masterScreen = masterScreen;
     this.display = document.createElement("div");
-    this.display.classList.add("help-screen");
-    var title = document.createElement("div");
-    title.textContent = "HELP";
-    this.display.appendChild(title);
-    var movement = document.createElement("pre");
-    movement.textContent = "You can move your character using the arrow keys,\nthe num-pad or vi-keys as follows.\n\ny k u    7 8 9\n \\|/      \\|/\nh- -l    4- -6\n /|\\      /|\\\nb j m    1 2 3\n ";
-    this.display.appendChild(movement);
-    var otherKeys = document.createElement("pre");
-    otherKeys.textContent = "OTHER KEYS:\ni - View Inventory\nESC - Lose Game Instantly";
-    this.display.appendChild(otherKeys);
+    this.screens = ["movement", "otherKeys"];
+    this.actions = {
+      switchScreen: function switchScreen(value) {
+        return function (state) {
+          return {
+            screen: value
+          };
+        };
+      }
+    };
+    this.app = (0, _hyperapp.app)({ screen: this.screens[0] }, this.actions, this.view.bind(this), this.display);
   }
 
   _createClass(HelpScreen, [{
+    key: "view",
+    value: function view(_ref) {
+      var screen = _ref.screen;
+
+      switch (screen) {
+        case "movement":
+          return (0, _hyperapp.h)(this.movementScreen, null);
+        case "otherKeys":
+          return (0, _hyperapp.h)(this.otherKeys, null);
+        default:
+          return (0, _hyperapp.h)(
+            "div",
+            null,
+            "error"
+          );
+      }
+    }
+  }, {
+    key: "otherKeys",
+    value: function otherKeys() {
+      return (0, _hyperapp.h)(
+        "div",
+        { "class": "help-screen" },
+        "HELP - OTHER KEYS ",
+        (0, _hyperapp.h)("br", null),
+        " ",
+        (0, _hyperapp.h)("br", null),
+        "i - inventory ",
+        (0, _hyperapp.h)("br", null),
+        "ESC - lose immediately!"
+      );
+    }
+  }, {
+    key: "movementScreen",
+    value: function movementScreen() {
+      var movement = "\n  y k u    7 8 9\n   \\|/      \\|/\n  h- -l    4- -6\n   /|\\      /|\\\n  b j m    1 2 3\n ";
+      return (0, _hyperapp.h)(
+        "div",
+        { "class": "help-screen" },
+        "HELP - MOVEMENT",
+        (0, _hyperapp.h)(
+          "pre",
+          { style: { margin: 0 } },
+          "You can move your character with the arrow keys, ",
+          (0, _hyperapp.h)("br", null),
+          "the num-pad or 'vi-keys' as seen below.",
+          movement
+        )
+      );
+    }
+  }, {
     key: "render",
     value: function render() {
       this.display.remove();
@@ -6363,6 +6812,11 @@ var HelpScreen = function () {
         this.masterScreen.exitSubscreen();
         this.display.remove();
       }
+      if (inputData.keyCode === _rotJs2.default.VK_PERIOD) {
+        console.log(this.screens);
+        this.screens.push(this.screens.shift());
+        this.app.switchScreen(this.screens[0]);
+      }
     }
   }]);
 
@@ -6370,7 +6824,7 @@ var HelpScreen = function () {
 }();
 
 exports.default = HelpScreen;
-},{"rot-js":27}],23:[function(require,module,exports) {
+},{"hyperapp":41,"rot-js":21}],40:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6507,7 +6961,7 @@ var Movable = exports.Movable = function () {
 
   return Movable;
 }();
-},{}],16:[function(require,module,exports) {
+},{}],28:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6526,6 +6980,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var PlayerTemplate = exports.PlayerTemplate = {
   name: "ME",
   char: "@",
+  fg: _colors2.default.white,
   mixins: [_entityMixins.Movable, _entityMixins.PlayerActor, _entityMixins.InventoryHolder]
 };
 
@@ -6535,7 +6990,7 @@ var MonsterTemplate = exports.MonsterTemplate = {
   fg: _colors2.default.green,
   mixins: [_entityMixins.Movable, _entityMixins.MonsterActor]
 };
-},{"../colors":5,"./entityMixins":23}],19:[function(require,module,exports) {
+},{"../colors":7,"./entityMixins":40}],37:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6594,7 +7049,7 @@ var wallTile = new Tile({
 
 exports.floorTile = floorTile;
 exports.wallTile = wallTile;
-},{"./glyph":24,"./colors":5}],18:[function(require,module,exports) {
+},{"./glyph":44,"./colors":7}],36:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6662,7 +7117,7 @@ var DungeonMap = function () {
 }();
 
 exports.default = DungeonMap;
-},{"rot-js":27,"./tile":19}],25:[function(require,module,exports) {
+},{"rot-js":21,"./tile":37}],42:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6731,7 +7186,7 @@ var Repository = function () {
 }();
 
 exports.default = Repository;
-},{"rot-js":27}],26:[function(require,module,exports) {
+},{"rot-js":21}],43:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6755,13 +7210,16 @@ var Item = function (_DynamicGlyph) {
 
   function Item(_ref) {
     var _ref$name = _ref.name,
-        name = _ref$name === undefined ? "item" : _ref$name;
+        name = _ref$name === undefined ? "item" : _ref$name,
+        _ref$canPickUp = _ref.canPickUp,
+        canPickUp = _ref$canPickUp === undefined ? true : _ref$canPickUp;
 
     _classCallCheck(this, Item);
 
     var _this = _possibleConstructorReturn(this, (Item.__proto__ || Object.getPrototypeOf(Item)).apply(this, arguments));
 
     _this.name = name;
+    _this.canPickUp = canPickUp;
     return _this;
   }
 
@@ -6769,7 +7227,7 @@ var Item = function (_DynamicGlyph) {
 }(_dynamicGlyph2.default);
 
 exports.default = Item;
-},{"../dynamicGlyph":20}],21:[function(require,module,exports) {
+},{"../dynamicGlyph":39}],38:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6805,6 +7263,14 @@ ItemRepository.define({
   fg: _colors2.default.peach
 });
 
+ItemRepository.define({
+  name: "Space Ship",
+  char: "§",
+  fg: _colors2.default.blue,
+  canPickUp: false,
+  disableRandomCreation: true
+});
+
 var WeaponRepository = exports.WeaponRepository = new _repository2.default({ name: "Weapons", ctor: _item2.default });
 
 WeaponRepository.define({
@@ -6812,7 +7278,7 @@ WeaponRepository.define({
   char: "(",
   fg: _colors2.default.blue
 });
-},{"../repository":25,"../colors":5,"./item":26}],12:[function(require,module,exports) {
+},{"../repository":42,"../colors":7,"./item":43}],23:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6859,10 +7325,11 @@ var Level = function () {
       this.addEntityAtRandomPosition(new _entity2.default(Object.assign(_entities.MonsterTemplate, { level: this })));
     }
 
-    for (var _i = 0; _i < 15; _i++) {
+    for (var _i = 0; _i < 25; _i++) {
       this.addItemAtRandomPosition(_items.ItemRepository.createRandom());
     }
     this.addItemAtRandomPosition(_items.WeaponRepository.createRandom());
+    this.addItemAtRandomPosition(_items.ItemRepository.create("Space Ship"));
   }
 
   _createClass(Level, [{
@@ -6944,7 +7411,7 @@ var Level = function () {
 }();
 
 exports.default = Level;
-},{"./dungeonMap":18,"./entity/entity":13,"./item/items":21,"./entity/entities":16,"./tile":19}],10:[function(require,module,exports) {
+},{"./dungeonMap":36,"./entity/entity":24,"./item/items":38,"./entity/entities":28,"./tile":37}],19:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6974,6 +7441,10 @@ var _gameOverScreen2 = _interopRequireDefault(_gameOverScreen);
 var _itemListDialog = require("./itemListDialog");
 
 var _itemListDialog2 = _interopRequireDefault(_itemListDialog);
+
+var _confirmation = require("./confirmation");
+
+var _confirmation2 = _interopRequireDefault(_confirmation);
 
 var _helpScreen = require("./helpScreen");
 
@@ -7015,12 +7486,18 @@ var playScreen = function () {
   }, {
     key: "handleInput",
     value: function handleInput(inputData) {
+      var _this = this;
+
       if (this.subscreen) {
         this.subscreen.handleInput(inputData);
         return;
       }
       if (inputData.keyCode === _rotJs2.default.VK_ESCAPE) {
-        this.game.switchScreen(_gameOverScreen2.default);
+        var exitFunction = function exitFunction() {
+          console.log(_this);
+          _this.game.switchScreen(_gameOverScreen2.default);
+        };
+        this.enterSubscreen(new _confirmation2.default("Are you SURE you want to INSTA-LOSE?", exitFunction, this));
       }
       //movement
       var move = function (dX, dY) {
@@ -7076,7 +7553,7 @@ var playScreen = function () {
       var items = this.level.getItems();
       if (items[this.player.getX() + "," + this.player.getY()]) {
         var item = items[this.player.getX() + "," + this.player.getY()];
-        if (this.player.addItem(item)) {
+        if (item.canPickUp && this.player.addItem(item)) {
           this.level.removeItem(item);
           this.game.messageDisplay.add("you pick up " + item.describeA());
           console.log("you pick up " + item.describeA());
@@ -7149,7 +7626,7 @@ var playScreen = function () {
 }();
 
 exports.default = playScreen;
-},{"rot-js":27,"../colors":5,"../entity/entity":13,"./gameOverScreen":14,"./itemListDialog":15,"./helpScreen":32,"../entity/entities":16,"../level":12}],8:[function(require,module,exports) {
+},{"rot-js":21,"../colors":7,"../entity/entity":24,"./gameOverScreen":25,"./itemListDialog":26,"./confirmation":11,"./helpScreen":27,"../entity/entities":28,"../level":23}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7199,7 +7676,7 @@ var startScreen = function () {
 }();
 
 exports.default = startScreen;
-},{"rot-js":27,"./playScreen":10}],6:[function(require,module,exports) {
+},{"rot-js":21,"./playScreen":19}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7267,7 +7744,7 @@ var MessageDisplay = function () {
 }();
 
 exports.default = MessageDisplay;
-},{"./colors":5}],7:[function(require,module,exports) {
+},{"./colors":7}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7327,7 +7804,7 @@ var PlayerStatusDisplay = function () {
 }();
 
 exports.default = PlayerStatusDisplay;
-},{"./colors":5}],3:[function(require,module,exports) {
+},{"./colors":7}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -7355,6 +7832,10 @@ var _messageDisplay2 = _interopRequireDefault(_messageDisplay);
 var _playerStatusDisplay = require("./playerStatusDisplay");
 
 var _playerStatusDisplay2 = _interopRequireDefault(_playerStatusDisplay);
+
+var _confirmation = require("./screens/confirmation");
+
+var _confirmation2 = _interopRequireDefault(_confirmation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7449,7 +7930,7 @@ window.onload = function () {
     game.switchScreen(_startScreen2.default);
   }
 };
-},{"rot-js":27,"./colors":5,"./screens/startScreen":8,"./messageDisplay":6,"./playerStatusDisplay":7}],29:[function(require,module,exports) {
+},{"rot-js":21,"./colors":7,"./screens/startScreen":10,"./messageDisplay":8,"./playerStatusDisplay":9,"./screens/confirmation":11}],59:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -7471,7 +7952,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '59418' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '50871' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -7572,5 +8053,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[29,3])
+},{}]},{},[59,3])
 //# sourceMappingURL=/dist/50d396a6072ed70d0ddee7179ee3cc4e.map
