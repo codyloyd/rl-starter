@@ -9,6 +9,7 @@ import {
 export const PlayerTemplate = {
   name: "ME",
   char: "@",
+  fg: Colors.white,
   mixins: [Movable, PlayerActor, InventoryHolder]
 };
 

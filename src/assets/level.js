@@ -24,10 +24,11 @@ class Level {
       );
     }
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 25; i++) {
       this.addItemAtRandomPosition(ItemRepository.createRandom());
     }
     this.addItemAtRandomPosition(WeaponRepository.createRandom());
+    this.addItemAtRandomPosition(ItemRepository.create("Space Ship"));
   }
 
   getItems() {

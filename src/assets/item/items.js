@@ -16,6 +16,14 @@ ItemRepository.define({
   fg: Colors.peach
 });
 
+ItemRepository.define({
+  name: "Space Ship",
+  char: "§",
+  fg: Colors.blue,
+  canPickUp: false,
+  disableRandomCreation: true
+});
+
 export const WeaponRepository = new Repository({ name: "Weapons", ctor: Item });
 
 WeaponRepository.define({

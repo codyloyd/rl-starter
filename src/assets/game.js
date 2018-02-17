@@ -3,6 +3,7 @@ import Colors from "./colors";
 import startScreen from "./screens/startScreen";
 import MessageDisplay from "./messageDisplay";
 import PlayerStatusDisplay from "./playerStatusDisplay";
+import Confirmation from "./screens/confirmation";
 
 class Game {
   constructor() {

@@ -1,29 +1,62 @@
+import { h, app } from "hyperapp";
 import ROT from "rot-js";
 
 class HelpScreen {
   constructor(masterScreen) {
     this.masterScreen = masterScreen;
     this.display = document.createElement("div");
-    this.display.classList.add("help-screen");
-    const title = document.createElement("div");
-    title.textContent = "HELP";
-    this.display.appendChild(title);
-    const movement = document.createElement("pre");
-    movement.textContent = `You can move your character using the arrow keys,
-the num-pad or vi-keys as follows.
+    this.screens = ["movement", "otherKeys"];
+    this.actions = {
+      switchScreen: value => state => ({
+        screen: value
+      })
+    };
+    this.app = app(
+      { screen: this.screens[0] },
+      this.actions,
+      this.view.bind(this),
+      this.display
+    );
+  }
 
-y k u    7 8 9
- \\|/      \\|/
-h- -l    4- -6
- /|\\      /|\\
-b j m    1 2 3
+  view({ screen }) {
+    switch (screen) {
+      case "movement":
+        return <this.movementScreen />;
+      case "otherKeys":
+        return <this.otherKeys />;
+      default:
+        return <div>error</div>;
+    }
+  }
+
+  otherKeys() {
+    return (
+      <div class="help-screen">
+        HELP - OTHER KEYS <br /> <br />i - inventory <br />ESC - lose
+        immediately!
+      </div>
+    );
+  }
+
+  movementScreen() {
+    const movement = `
+  y k u    7 8 9
+   \\|/      \\|/
+  h- -l    4- -6
+   /|\\      /|\\
+  b j m    1 2 3
  `;
-    this.display.appendChild(movement);
-    const otherKeys = document.createElement("pre");
-    otherKeys.textContent = `OTHER KEYS:
-i - View Inventory
-ESC - Lose Game Instantly`;
-    this.display.appendChild(otherKeys);
+    return (
+      <div class="help-screen">
+        HELP - MOVEMENT
+        <pre style={{ margin: 0 }}>
+          You can move your character with the arrow keys, <br />
+          the num-pad or 'vi-keys' as seen below.
+          {movement}
+        </pre>
+      </div>
+    );
   }
 
   render() {
@@ -35,6 +68,11 @@ ESC - Lose Game Instantly`;
     if (inputData.keyCode === ROT.VK_ESCAPE) {
       this.masterScreen.exitSubscreen();
       this.display.remove();
+    }
+    if (inputData.keyCode === ROT.VK_PERIOD) {
+      console.log(this.screens);
+      this.screens.push(this.screens.shift());
+      this.app.switchScreen(this.screens[0]);
     }
   }
 }

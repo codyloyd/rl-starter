@@ -3,6 +3,7 @@ import Colors from "../colors";
 import Entity from "../entity/entity";
 import gameOverScreen from "./gameOverScreen";
 import ItemListDialog from "./itemListDialog";
+import Confirmation from "./confirmation";
 import HelpScreen from "./helpScreen";
 import { MonsterTemplate, PlayerTemplate } from "../entity/entities";
 import Level from "../level";
@@ -35,7 +36,17 @@ class playScreen {
       return;
     }
     if (inputData.keyCode === ROT.VK_ESCAPE) {
-      this.game.switchScreen(gameOverScreen);
+      const exitFunction = () => {
+        console.log(this);
+        this.game.switchScreen(gameOverScreen);
+      };
+      this.enterSubscreen(
+        new Confirmation(
+          "Are you SURE you want to INSTA-LOSE?",
+          exitFunction,
+          this
+        )
+      );
     }
     //movement
     const move = function(dX, dY) {
@@ -120,7 +131,7 @@ class playScreen {
     const items = this.level.getItems();
     if (items[this.player.getX() + "," + this.player.getY()]) {
       const item = items[this.player.getX() + "," + this.player.getY()];
-      if (this.player.addItem(item)) {
+      if (item.canPickUp && this.player.addItem(item)) {
         this.level.removeItem(item);
         this.game.messageDisplay.add("you pick up " + item.describeA());
         console.log("you pick up " + item.describeA());
