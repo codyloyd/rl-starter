@@ -2,6 +2,7 @@
   --black: #000010;
   --white: #fff1f8;
   --red: #ff0040;
+  --orange: orange;
 }
 body {
   background: var(--black);
